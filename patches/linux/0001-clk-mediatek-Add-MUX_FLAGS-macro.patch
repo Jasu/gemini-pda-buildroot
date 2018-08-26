@@ -1,0 +1,42 @@
+From 506a258748e25758cc3a581f391cec2b15b90e5f Mon Sep 17 00:00:00 2001
+From: Jasper Mattsson <jasu@njomotys.info>
+Date: Sat, 25 Aug 2018 15:34:23 +0300
+Subject: [PATCH] clk: mediatek: Add MUX_FLAGS macro
+
+This will later be used to mark outputs of certain MUXes as
+CLK_IS_CRITICAL.
+
+Signed-off-by: Jasper Mattsson <jasu@njomotys.info>
+---
+ drivers/clk/mediatek/clk-mtk.h | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/clk/mediatek/clk-mtk.h b/drivers/clk/mediatek/clk-mtk.h
+index f83c2bbb6..daab6ee94 100644
+--- a/drivers/clk/mediatek/clk-mtk.h
++++ b/drivers/clk/mediatek/clk-mtk.h
+@@ -111,7 +111,11 @@ struct mtk_composite {
+ 	MUX_GATE_FLAGS(_id, _name, _parents, _reg, _shift, _width,	\
+ 		_gate, CLK_SET_RATE_PARENT)
+ 
+-#define MUX(_id, _name, _parents, _reg, _shift, _width) {		\
++#define MUX(_id, _name, _parents, _reg, _shift, _width)			\
++	MUX_FLAGS(_id, _name, _parents, _reg,				\
++		  _shift, _width, CLK_SET_RATE_PARENT)
++
++#define MUX_FLAGS(_id, _name, _parents, _reg, _shift, _width, _flags) {	\
+ 		.id = _id,						\
+ 		.name = _name,						\
+ 		.mux_reg = _reg,					\
+@@ -121,7 +125,7 @@ struct mtk_composite {
+ 		.divider_shift = -1,					\
+ 		.parent_names = _parents,				\
+ 		.num_parents = ARRAY_SIZE(_parents),			\
+-		.flags = CLK_SET_RATE_PARENT,				\
++		.flags = _flags,				\
+ 	}
+ 
+ #define DIV_GATE(_id, _name, _parent, _gate_reg, _gate_shift, _div_reg,	\
+-- 
+2.18.0
+

@@ -1,0 +1,305 @@
+// SPDX-License-Identifier: GPL-2.0
+/dts-v1/;
+
+// This file will be copied to arch/arm64/boot/dts/gemini.dts by buildroot,
+// so the include path must be relative to that.
+#include "mediatek/mt6797.dtsi"
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/power/mt6797-power.h>
+
+/ {
+	model = "MT6797X";
+
+	aliases {
+		serial0 = &uart0;
+	};
+
+	chosen {
+		// Specifying cmdline here is useless, since they are
+		// overwritten by LK. CMDLINE is overridden in kernel config.
+	};
+
+	soc {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges = <0 0 0 0xffffffff>;
+
+		// This node is required by MediaTek's LK bootloader.
+		scp: scp@10020000 {
+			compatible = "mediatek,scp";
+			status = "disabled";
+			reg = <0x10020000 0x80000>,
+				<0x100a0000 0x1000>,
+				<0x100a4000 0x1000>;
+			interrupts = <GIC_SPI 199 IRQ_TYPE_LEVEL_HIGH>;
+		};
+	};
+
+	memory@40000000 {
+		device_type = "memory";
+		// It won't matter much what we write here, since the bootloader
+		// overwrites the reg option anyway.
+		reg = <0 0x40000000 0 0x80000000>;
+	};
+
+	reserved-memory {
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		spm-dummy-1@40000000 {
+			compatible = "mediatek,spm-dummy-1";
+			reg = <0 0x40000000 0 0x1000>;
+		};
+
+		minirdump-reserved-memory@444f0000 {
+			compatible = "minirdump-reserve-memory";
+			reg = <0 0x444f0000 0 0x10000>;
+		};
+
+		preloader-reserved-memory@44800000 {
+			compatible = "mediatek,preloader";
+			reg = <0 0x44800000 0 0x100000>;
+		};
+
+		lk-reserved-memory@46000000 {
+			compatible = "mediatek,lk";
+			reg = <0 0x46000000 0 0x400000>;
+		};
+
+		ram_console-reserved-memory@44400000 {
+			compatible = "ram_console-reserve-memory";
+			reg = <0 0x44400000 0 0x10000>;
+		};
+
+		pstore-reserved-memory@44410000 {
+			compatible = "mediatek,pstore";
+			reg = <0 0x44410000 0 0xe0000>;
+		};
+
+		spm-reserve-memory {
+			compatible = "mediatek,spm-reserve-memory";
+			no-map;
+			size = <0 0x16000>; /* PCM_FIRMWARE_SIZE * DYNA_LOAD_PCM_MAX = 8K * 11 */
+			alignment = <0 0x10000>;
+			alloc-ranges = <0 0x40000000 0 0x80000000>;
+		};
+
+		atf-reserved-memory@44600000 {
+			compatible = "mediatek,mt6797-atf-reserved-memory";
+			no-map;
+			reg = <0 0x44600000 0 0x10000>;
+		};
+
+		atf-ramdump-memory@44610000 {
+			compatible = "mediatek,mt6797-atf-ramdump-memory";
+			no-map;
+			reg = <0 0x44610000 0 0x30000>;
+		};
+
+		cache-dump-memory@44640000 {
+			compatible = "mediatek,cache-dump-memory";
+			no-map;
+			reg = <0 0x44640000 0 0x30000>;
+		};
+
+		// These areas are not declared as reserved by the bootloader,
+		// are not in the I/O range. They are ioremapped by the video
+		// driver (during late boot).
+		res-framebuffer-0@bdff0000 {
+			compatible = "mediatek,dummy-framebuffer";
+			no-map;
+			reg = <0 0xbdff0000 0 0x01f90000>;
+		};
+	};
+
+	cpus {
+		cpu-map {
+			cluster0 {
+				 core0 { cpu = <&cpu0>; };
+				 core1 { cpu = <&cpu1>; };
+				 core2 { cpu = <&cpu2>; };
+				 core3 { cpu = <&cpu3>; };
+			};
+			cluster1 {
+				 core0 { cpu = <&cpu4>; };
+				 core1 { cpu = <&cpu5>; };
+				 core2 { cpu = <&cpu6>; };
+				 core3 { cpu = <&cpu7>; };
+			};
+			cluster2 {
+				 core0 { cpu = <&cpu8>; };
+				 core1 { cpu = <&cpu9>; };
+			};
+		};
+
+		idle-states {
+			entry-method = "psci";
+
+			cpu_sleep: cpu-sleep-0 {
+				compatible = "arm,idle-state";
+				arm,psci-suspend-param = <0x0010000>;
+				entry-latency-us = <600>;
+				exit-latency-us = <600>;
+				min-residency-us = <1200>;
+			};
+			cluster_sleep: cluster-sleep-0 {
+				compatible = "arm,idle-state";
+				arm,psci-suspend-param = <0x1010000>;
+				entry-latency-us = <800>;
+				exit-latency-us = <1000>;
+				min-residency-us = <2000>;
+			};
+		};
+
+		l2_cluster_0: l2-cache-0 {
+			compatible = "cache";
+			cache-size = <0x80000>;
+			cache-line-size = <64>;
+			cache-sets = <512>;
+		};
+
+		l2_cluster_1: l2-cache-1 {
+			compatible = "cache";
+			cache-size = <0x80000>;
+			cache-line-size = <64>;
+			cache-sets = <512>;
+		};
+
+		l2_cluster_2: l2-cache-2 {
+			compatible = "cache";
+			cache-size = <0x80000>;
+			cache-line-size = <64>;
+			cache-sets = <512>;
+		};
+	};
+};
+
+// clock-frequency must be specified for each CPU. If it is omitted, MediaTek's
+// LK bootloader might read uninitialized memory and perhaps overwrite some
+// random properties in the device tree.
+
+// Slow Cortex-A53 cluster
+&cpu0 {
+	clock-frequency = <1391000000>;
+	//cpu-idle-states = <&cpu_sleep &cluster_sleep>;
+	i-cache-size = <0x8000>;
+	i-cache-line-size = <64>;
+	i-cache-sets = <256>;
+	d-cache-size = <0x8000>;
+	d-cache-line-size = <64>;
+	d-cache-sets = <128>;
+	next-level-cache = <&l2_cluster_0>;
+};
+&cpu1 {
+	clock-frequency = <1391000000>;
+	//cpu-idle-states = <&cpu_sleep &cluster_sleep>;
+	i-cache-size = <0x8000>;
+	i-cache-line-size = <64>;
+	i-cache-sets = <256>;
+	d-cache-size = <0x8000>;
+	d-cache-line-size = <64>;
+	d-cache-sets = <128>;
+	next-level-cache = <&l2_cluster_0>;
+};
+&cpu2 {
+	clock-frequency = <1391000000>;
+	//cpu-idle-states = <&cpu_sleep &cluster_sleep>;
+	i-cache-size = <0x8000>;
+	i-cache-sets = <256>;
+	i-cache-line-size = <64>;
+	d-cache-size = <0x8000>;
+	d-cache-line-size = <64>;
+	d-cache-sets = <128>;
+	next-level-cache = <&l2_cluster_0>;
+};
+&cpu3 {
+	clock-frequency = <1391000000>;
+	//cpu-idle-states = <&cpu_sleep &cluster_sleep>;
+	i-cache-size = <0x8000>;
+	i-cache-line-size = <64>;
+	i-cache-sets = <256>;
+	d-cache-size = <0x8000>;
+	d-cache-line-size = <64>;
+	d-cache-sets = <128>;
+	next-level-cache = <&l2_cluster_0>;
+};
+
+// Fast Cortex-A53 cluster
+&cpu4 {
+	clock-frequency = <1950000000>;
+	//cpu-idle-states = <&cpu_sleep &cluster_sleep>;
+	i-cache-size = <0x8000>;
+	i-cache-line-size = <64>;
+	i-cache-sets = <256>;
+	d-cache-size = <0x8000>;
+	d-cache-line-size = <64>;
+	d-cache-sets = <128>;
+	next-level-cache = <&l2_cluster_1>;
+};
+&cpu5 {
+	clock-frequency = <1950000000>;
+	//cpu-idle-states = <&cpu_sleep &cluster_sleep>;
+	i-cache-size = <0x8000>;
+	i-cache-line-size = <64>;
+	i-cache-sets = <256>;
+	d-cache-size = <0x8000>;
+	d-cache-line-size = <64>;
+	d-cache-sets = <128>;
+	next-level-cache = <&l2_cluster_1>;
+};
+&cpu6 {
+	clock-frequency = <1950000000>;
+	//cpu-idle-states = <&cpu_sleep &cluster_sleep>;
+	i-cache-size = <0x8000>;
+	i-cache-line-size = <64>;
+	i-cache-sets = <256>;
+	d-cache-size = <0x8000>;
+	d-cache-line-size = <64>;
+	d-cache-sets = <128>;
+	next-level-cache = <&l2_cluster_1>;
+};
+&cpu7 {
+	clock-frequency = <1950000000>;
+	//cpu-idle-states = <&cpu_sleep &cluster_sleep>;
+	i-cache-size = <0x8000>;
+	i-cache-line-size = <64>;
+	i-cache-sets = <256>;
+	d-cache-size = <0x8000>;
+	d-cache-line-size = <64>;
+	d-cache-sets = <128>;
+	next-level-cache = <&l2_cluster_1>;
+};
+
+// Fast Cortex-A72 cluster
+&cpu8 {
+	clock-frequency = <2288000000>;
+	//cpu-idle-states = <&cpu_sleep &cluster_sleep>;
+
+	i-cache-size = <0xc000>;
+	i-cache-line-size = <64>;
+	i-cache-sets = <256>;
+
+	d-cache-size = <0x8000>;
+	d-cache-line-size = <64>;
+	d-cache-sets = <256>;
+	next-level-cache = <&l2_cluster_2>;
+};
+&cpu9 {
+	clock-frequency = <2288000000>;
+	//cpu-idle-states = <&cpu_sleep &cluster_sleep>;
+
+	i-cache-size = <0xc000>;
+	i-cache-line-size = <64>;
+	i-cache-sets = <256>;
+
+	d-cache-size = <0x8000>;
+	d-cache-line-size = <64>;
+	d-cache-sets = <256>;
+	next-level-cache = <&l2_cluster_2>;
+};
+
+&uart0 {
+	status = "okay";
+};

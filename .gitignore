@@ -1,0 +1,6 @@
+ext/*
+output/*
+logs/*
+scripts/custom-after-build.sh
+
+!.gitkeep

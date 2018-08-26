@@ -1,0 +1,5 @@
+config BR2_PACKAGE_MT6797_DEBUG
+	bool "MT6797 debug"
+	depends on BR2_LINUX_KERNEL
+	help
+		Kernel module to debug MT6797 hardware.
