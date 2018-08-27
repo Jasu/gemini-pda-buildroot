@@ -120,10 +120,10 @@ The included `mt6797_debug` module provides MT6797-specific files in
 | `pll_bus`                   | Measured frequency of the main AXI bus clock. :warning: **Reading this file has a race condition with the clock driver.** |
 | `psci_status`               | PSCI-reported status of CPUs                                                                                              |
 | `regs/EMI_CONM`             | Contents of the EMI_CONM register (memory clocks)                                                                         |
-| `regs/M4U_PT_BASE_ADDR`     | Base address of EMI MPU page table                                                                                        |
-| `regs/M4U_PT_BASE_ADDR_SEC` | Second base address of EMI MPU page table                                                                                 |
-| `regs/M4U_CTRL`             | Control registers of EMI MPU                                                                                              |
-| `regs/M4U_IVRP_PADDR`       | Address of EMI MPU's violation info area                                                                                  |
+| `regs/M4U_PT_BASE_ADDR`     | Base address of M4U page table                                                                                            |
+| `regs/M4U_PT_BASE_ADDR_SEC` | Second base address of M4U page table                                                                                     |
+| `regs/M4U_CTRL`             | Control registers of M4U                                                                                                  |
+| `regs/M4U_IVRP_PADDR`       | Address of M4U's violation info area                                                                                      |
 
 ### Rebuilding the module
 
