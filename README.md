@@ -87,6 +87,20 @@ make menuconfig
 and you will need to copy it to `configs/defconfig` yourself to preserve your
 changes.
 
+## Running the kernel without flashing
+
+You can `kexec` into the new kernel dynamically. To facilitate this, there are
+two scripts: `kexecboot.sh` and `run-kexecboot.sh`. `kexecboot.sh` runs on the
+device, and `run-kexecboot.sh` runs on the host. `run-kexecboot.sh ttyUSB0`
+opens `ttyUSB0`, writes to the terminal `/usr/local/bin/kexecboot.sh`, and then
+transfers the latest build results to the PDA. The PDA then patches the device
+tree and `kexec`s into the new kernel. Note that the transfer takes about a
+minute, so it's not significantly faster than booting to Gemian and `dd`ing the
+image to recovery.
+
+You can make `scripts/custom-after-build.sh` run `run-kexecboot.sh` after every
+build.
+
 ## Directory structure
 
 | Directory                       | Description                                                    |
@@ -124,6 +138,7 @@ The included `mt6797_debug` module provides MT6797-specific files in
 | `regs/M4U_PT_BASE_ADDR_SEC` | Second base address of M4U page table                                                                                     |
 | `regs/M4U_CTRL`             | Control registers of M4U                                                                                                  |
 | `regs/M4U_IVRP_PADDR`       | Address of M4U's violation info area                                                                                      |
+| `regs/*`                    | Various other registers                                                                                                   |
 
 ### Rebuilding the module
 
