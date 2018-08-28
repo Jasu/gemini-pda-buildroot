@@ -138,6 +138,8 @@ The following patch sets are included:
 This patchset marks critical clocks as such. Without these patches, the memory
 would get corrupted.
 
+[The patch set has been sent to MediaTek's Linux mailing list.](http://lists.infradead.org/pipermail/linux-mediatek/2018-August/014824.html)
+
 ### Fix `scpsys`
 
 This patchset adds missing power domains to scpsys, otherwise the probe for
