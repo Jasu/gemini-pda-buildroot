@@ -10,7 +10,15 @@
 static void print_field(struct seq_file *seq, u32 val,
 	const struct register_field * field)
 {
-	u32 field_value = (val & field->mask) >> field->shift;
+	u32 last_bit = field->shift + field->width - 1;
+	u32 mask = GENMASK(field->width + field->shift - 1, field->shift);
+	u32 field_value = (val & mask) >> field->shift;
+
+	if (field->type == REGISTER_FIELD_BIT)
+		seq_printf(seq, "   %2d: ", field->shift, last_bit);
+	else
+		seq_printf(seq, "%2d:%2d: ", field->shift, last_bit);
+
 	switch (field->type) {
 	case REGISTER_FIELD_BIT:
 		seq_printf(seq, "%s\n",

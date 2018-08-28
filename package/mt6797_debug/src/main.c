@@ -4,11 +4,14 @@
 #include <linux/module.h>
 #include <linux/debugfs.h>
 
-void mt6797_debug_emi_regs_init(struct dentry *regs_dir);
+void mt6797_debug_bus_protect_regs_init(struct dentry *regs_dir);
+void mt6797_debug_gpuldo_regs_init(struct dentry *regs_dir);
 void mt6797_debug_emi_mpu_init(struct dentry *debug_dir);
+void mt6797_debug_emi_regs_init(struct dentry *regs_dir);
 void mt6797_debug_m4u_regs_init(struct dentry *regs_dir);
 void mt6797_debug_pll_init(struct dentry *debug_dir);
 void mt6797_debug_psci_init(struct dentry *debug_dir);
+void mt6797_debug_spm_regs_init(struct dentry *debug_dir);
 
 static struct dentry *debug_dir;
 
@@ -17,11 +20,14 @@ static int __init mt6797_debug_init(void)
 	debug_dir = debugfs_create_dir("mt6797", NULL);
 	struct dentry * regs_dir = debugfs_create_dir("regs", debug_dir);
 
-	mt6797_debug_emi_regs_init(regs_dir);
+	mt6797_debug_bus_protect_regs_init(regs_dir);
+	mt6797_debug_gpuldo_regs_init(regs_dir);
 	mt6797_debug_emi_mpu_init(debug_dir);
-	mt6797_debug_psci_init(debug_dir);
-	mt6797_debug_pll_init(debug_dir);
+	mt6797_debug_emi_regs_init(regs_dir);
 	mt6797_debug_m4u_regs_init(regs_dir);
+	mt6797_debug_pll_init(debug_dir);
+	mt6797_debug_psci_init(debug_dir);
+	mt6797_debug_spm_regs_init(regs_dir);
 
 	return 0;
 }

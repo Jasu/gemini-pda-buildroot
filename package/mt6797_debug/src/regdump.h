@@ -13,7 +13,7 @@
 
 struct register_field {
 	unsigned int type;
-	unsigned int mask;
+	unsigned int width;
 	unsigned int shift;
 	const char * desc_enabled;
 	const char * desc_disabled;
@@ -33,15 +33,27 @@ struct register_definition {
 #define REGISTER_BIT_DISABLED(INDEX, NAME) \
 	REGISTER_BIT(INDEX, NAME" disabled", NAME" enabled")
 
+#define REGISTER_BIT_SET(INDEX, NAME) \
+	REGISTER_BIT(INDEX, NAME" set", NAME" clear")
+
+#define REGISTER_BIT_ACK(INDEX, NAME) \
+	REGISTER_BIT(INDEX, NAME" ACK", NAME" NAK")
+
 #define REGISTER_BIT_ON(INDEX, NAME) \
 	REGISTER_BIT(INDEX, NAME" on", NAME" off")
 
 #define REGISTER_BIT_OFF(INDEX, NAME) \
 	REGISTER_BIT(INDEX, NAME" off", NAME" on")
 
+#define REGISTER_BIT_IDLE(INDEX, NAME) \
+	REGISTER_BIT(INDEX, NAME" idle", NAME" busy")
+
+#define REGISTER_BIT_READY(INDEX, NAME) \
+	REGISTER_BIT(INDEX, NAME" ready", NAME" not ready")
+
 #define REGISTER_BIT(_index, _desc_enabled, _desc_disabled) {		\
 		.type = REGISTER_FIELD_BIT,				\
-		.mask = BIT(_index),					\
+		.width = 1,						\
 		.shift = _index,					\
 		.desc_enabled = _desc_enabled,				\
 		.desc_disabled = _desc_disabled,			\
@@ -49,7 +61,7 @@ struct register_definition {
 
 #define REGISTER_FIELD(_start, _end, _desc) {				\
 		.type = REGISTER_FIELD_FIELD,				\
-		.mask = GENMASK(_end, _start),				\
+		.width = _end - _start + 1,				\
 		.shift = _start,					\
 		.desc_enabled = _desc,					\
 		.desc_disabled = _desc,					\
@@ -57,7 +69,7 @@ struct register_definition {
 
 #define REGISTER_ENUM(_start, _end, _desc, ...) {			\
 		.type = REGISTER_FIELD_ENUM,				\
-		.mask = GENMASK(_end, _start),				\
+		.width = _end - _start + 1,				\
 		.shift = _start,					\
 		.desc_enabled = _desc,					\
 		.desc_disabled = _desc,					\
