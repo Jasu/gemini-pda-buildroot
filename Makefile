@@ -18,8 +18,7 @@ ext/mkbootimg/mkbootimg: ext/mkbootimg
 
 
 # By default, pass control to buildroot's Makefile
-default:
-	$(call buildroot_make)
+default: buildroot_make
 
 buildroot_make:
 	$(call buildroot_make, $(MAKECMDGOALS))
