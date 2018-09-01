@@ -10,6 +10,7 @@ mt6797_debug-objs += debug_m4u_regs.o
 mt6797_debug-objs += debug_pll.o
 mt6797_debug-objs += debug_psci.o
 mt6797_debug-objs += debug_spm_regs.o
+mt6797_debug-objs += debug_uart_regs.o
 mt6797_debug-objs += debug_usb_sifslv_u2phy_regs.o
 
 default:
