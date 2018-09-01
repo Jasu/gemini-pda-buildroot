@@ -12,6 +12,5 @@ See [Omegamoon blog - MediaTek USB-UART on Gemini-PDA](http://www.omegamoon.com/
   boot, the UART is not used in the kernel and output stops after the
   bootloader.
 - The UART uses a custom driver, which also exists in the mainline kernel.
-- `printk.disable_uart=1` is passed to the Android kernel, but it is not used,
-  because the configuration option `CONFIG_MT_PRINTK_UART_CONSOLE` is **not**
-  set, and `printk.disable_uart` is thus not processed.
+- `printk.disable_uart=1` is passed to the Android kernel, which disables UART
+  printing.
