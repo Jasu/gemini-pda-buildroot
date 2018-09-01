@@ -44,7 +44,9 @@ DEFINE_REGISTER(EMI_CONM, 0x060, "EMI Misc. configuration",
 
 );
 
-void __init mt6797_debug_emi_regs_init(struct dentry *reg_dir)
+void __init mt6797_debug_emi_regs_init(struct dentry *regs_dir)
 {
-	REGISTER_FILE(reg_dir, EMI_CON_BASE, EMI_CONM);
+	regs_dir = debugfs_create_dir("emi", regs_dir);
+
+	REGISTER_FILE(regs_dir, EMI_CON_BASE, EMI_CONM);
 }

@@ -82,9 +82,11 @@ DEFINE_REGISTER(INFRA_TOPAXI_PROTECT_STA1, 0x228, "Top AXI Protection Status 1",
 	REGISTER_BIT_READY(23, "MFG Snoop out protection")
 );
 
-void __init mt6797_debug_bus_protect_regs_init(struct dentry *reg_dir)
+void __init mt6797_debug_bus_protect_regs_init(struct dentry *regs_dir)
 {
-	REGISTER_FILE(reg_dir, INFRACFG_BASE, INFRA_TOPAXI_PROTECT_EN);
-	REGISTER_FILE(reg_dir, INFRACFG_BASE, INFRA_TOPAXI_PROTECT_STA0);
-	REGISTER_FILE(reg_dir, INFRACFG_BASE, INFRA_TOPAXI_PROTECT_STA1);
+	regs_dir = debugfs_create_dir("bus_protect", regs_dir);
+
+	REGISTER_FILE(regs_dir, INFRACFG_BASE, INFRA_TOPAXI_PROTECT_EN);
+	REGISTER_FILE(regs_dir, INFRACFG_BASE, INFRA_TOPAXI_PROTECT_STA0);
+	REGISTER_FILE(regs_dir, INFRACFG_BASE, INFRA_TOPAXI_PROTECT_STA1);
 }
