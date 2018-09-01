@@ -12,6 +12,7 @@ void mt6797_debug_m4u_regs_init(struct dentry *regs_dir);
 void mt6797_debug_pll_init(struct dentry *debug_dir);
 void mt6797_debug_psci_init(struct dentry *debug_dir);
 void mt6797_debug_spm_regs_init(struct dentry *debug_dir);
+void mt6797_debug_usb_sifslv_u2phy_init(struct dentry * regs_dir);
 
 static struct dentry *debug_dir;
 
@@ -28,6 +29,7 @@ static int __init mt6797_debug_init(void)
 	mt6797_debug_pll_init(debug_dir);
 	mt6797_debug_psci_init(debug_dir);
 	mt6797_debug_spm_regs_init(regs_dir);
+	mt6797_debug_usb_sifslv_u2phy_init(regs_dir);
 
 	return 0;
 }

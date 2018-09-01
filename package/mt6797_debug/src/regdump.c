@@ -58,7 +58,7 @@ void print_register(struct seq_file *seq, void * base,
 	base_mapped = ioremap_nocache((phys_addr_t)base, PAGE_SIZE);
 	val = readl(base_mapped + def->offset);
 
-	seq_printf(seq, "%s@%llx - %s: 0x%x\n",
+	seq_printf(seq, "%s@%llx - %s: 0x%08x\n",
 		def->name, (u64)base + def->offset, def->desc, val);
 
 	print_bits(seq, val);
