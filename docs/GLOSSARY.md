@@ -51,6 +51,15 @@ MediaTek / ARM slang. Most of the terms are MediaTek-specific, some are not.
 | `UFO`   | MediaTek's proprietary display connection compression format.                                                           |
 | `WDMA`  | **Write DMA**: Allows the display controller to write to RAM.                                                           |
 
+# Audio
+
+| Term            | Description                                                                     |
+| --------------- | ------------------------------------------------------------------------------- |
+| `AFE`           | **Audio FrontEnd**                                                              |
+| `AMPL` / `AMPR` | Left and right amplifier. `L` and `R` suffixes usually refer to left and right. |
+| `ANA`           | **ANAlog**                                                                      |
+| `HP`            | **HeadPhones**                                                                  |
+
 ## Modem
 
 | Term    | Description                                                                                                                                         |
