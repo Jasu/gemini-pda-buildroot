@@ -4,6 +4,8 @@
 #include <linux/module.h>
 #include <linux/debugfs.h>
 
+void mt6797_debug_force_uart(void);
+
 void mt6797_debug_bus_protect_regs_init(struct dentry *regs_dir);
 void mt6797_debug_gpio_regs_init(struct dentry *regs_dir);
 void mt6797_debug_gpuldo_regs_init(struct dentry *regs_dir);
@@ -22,8 +24,14 @@ static struct dentry *debug_dir;
 
 static int __init mt6797_debug_init(void)
 {
+	struct dentry * regs_dir;
+
+#ifdef MT6797_DEBUG_FORCE_UART
+	mt6797_debug_force_uart();
+#endif
+
 	debug_dir = debugfs_create_dir("mt6797", NULL);
-	struct dentry * regs_dir = debugfs_create_dir("regs", debug_dir);
+	regs_dir = debugfs_create_dir("regs", debug_dir);
 
 	mt6797_debug_bus_protect_regs_init(regs_dir);
 	mt6797_debug_gpio_regs_init(regs_dir);

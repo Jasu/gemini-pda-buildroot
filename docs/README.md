@@ -8,6 +8,7 @@
 - [Notes about the USB UART](USB-UART.md)
 - [Notes about the LCD](LCD.md)
 - [Notes about system clocks](CLOCKS.md)
+- [Undocumented registers](UNDOCUMENTED-REGISTERS.md)
 - [SMI LARB ports](SMI-LARB.md)
 - [MediaTek slang dictionary](GLOSSARY.md)
 
