@@ -5,7 +5,7 @@ cd $(mktemp -d)
 # Receive Image.gz, gemini-pda.dtb, and initrd.img
 dmesg -n 1
 stty -echo
-rz --binary --zmodem </dev/ttyS0 >/dev/ttyS0
+rz --binary --zmodem </dev/ttyS0 >/dev/ttyS0 2>/dev/null
 
 for FILE in Image.gz gemini-pda.dtb rootfs.cpio.gz; do
   if [ ! -f "$FILE" ]; then
