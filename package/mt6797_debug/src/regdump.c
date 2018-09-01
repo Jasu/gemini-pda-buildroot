@@ -15,9 +15,9 @@ static void print_field(struct seq_file *seq, u32 val,
 	u32 field_value = (val & mask) >> field->shift;
 
 	if (field->type == REGISTER_FIELD_BIT)
-		seq_printf(seq, "   %2d: ", field->shift, last_bit);
+		seq_printf(seq, "   %02d: ", field->shift, last_bit);
 	else
-		seq_printf(seq, "%2d:%2d: ", field->shift, last_bit);
+		seq_printf(seq, "%02d:%02d: ", field->shift, last_bit);
 
 	switch (field->type) {
 	case REGISTER_FIELD_BIT:
@@ -59,7 +59,7 @@ void print_register(struct seq_file *seq, void * base,
 	val = readl(base_mapped + def->offset);
 
 	seq_printf(seq, "%s@%llx - %s: 0x%x\n",
-		def->name, (u64)base, def->desc, val);
+		def->name, (u64)base + def->offset, def->desc, val);
 
 	print_bits(seq, val);
 
