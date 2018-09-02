@@ -159,3 +159,9 @@ would get corrupted.
 
 This patchset adds missing power domains to scpsys, otherwise the probe for
 `scpsys` would fail.
+
+## Running on other devices
+
+The kernel has been tested on Umidigi Umi Z. It's preloader does not attempt to
+detect the UART cable, so the Force UART option of `mt6797_debug` has to be
+selected in `make menuconfig`.

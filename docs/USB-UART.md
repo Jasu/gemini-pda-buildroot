@@ -17,6 +17,10 @@ See [Omegamoon blog - MediaTek USB-UART on Gemini-PDA](http://www.omegamoon.com/
 
 ## How is the USB UART enabled in code?
 
+See [force_uart.c](../package/mt6797_debug/src/force_uart.c). To enable the
+force UART functionality, run `make menuconfig` and select `Force UART` in 
+the External options menu.
+
 The preloader configures the USB UART if it (somehow?) detects an UART cable.
 
 Register maps don't show registers related to the USB UART. However, USB PHY and
