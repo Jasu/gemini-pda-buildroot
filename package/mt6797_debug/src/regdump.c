@@ -10,14 +10,15 @@
 static void print_field(struct seq_file *seq, u32 val,
 	const struct register_field * field)
 {
-	u32 last_bit = field->shift + field->width - 1;
-	u32 mask = GENMASK(field->width + field->shift - 1, field->shift);
-	u32 field_value = (val & mask) >> field->shift;
+	u32 i;
+	u32 last_bit = (field->shift % 32) + field->width - 1;
+	u32 mask = GENMASK(field->width + (field->shift % 32) - 1, field->shift % 32);
+	u32 field_value = (val & mask) >> (field->shift % 32);
 
 	if (field->type == REGISTER_FIELD_BIT)
-		seq_printf(seq, "   %02d: ", field->shift, last_bit);
+		seq_printf(seq, "   %02d: ", (field->shift % 32), last_bit);
 	else
-		seq_printf(seq, "%02d:%02d: ", field->shift, last_bit);
+		seq_printf(seq, "%02d:%02d: ", (field->shift % 32), last_bit);
 
 	switch (field->type) {
 	case REGISTER_FIELD_BIT:
@@ -28,7 +29,15 @@ static void print_field(struct seq_file *seq, u32 val,
 		seq_printf(seq, "%s: %x\n", field->desc_enabled, field_value);
 		break;
 	case REGISTER_FIELD_ENUM:
-		seq_printf(seq, "%s\n", field->desc_enum[field_value]);
+		/* Allow omitting trailing undefined values. */
+		for (i = 0; i <= field_value; ++i) {
+			if (field->desc_enum[i] == 0) {
+				seq_printf(seq, "Undefined (0x%x)\n", field_value);
+				return;
+			}
+		}
+		seq_printf(seq, "%s (%d)\n",
+			field->desc_enum[field_value], field_value);
 		break;
 	default:
 		seq_printf(seq, "Unknown field type: %d\n", field->type);
