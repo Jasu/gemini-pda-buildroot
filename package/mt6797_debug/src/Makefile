@@ -7,6 +7,7 @@ mt6797_debug-objs += debug_gpio_regs.o
 mt6797_debug-objs += debug_gpuldo_regs.o
 mt6797_debug-objs += debug_emi_mpu.o
 mt6797_debug-objs += debug_emi_regs.o
+mt6797_debug-objs += debug_io_cfg_l_regs.o
 mt6797_debug-objs += debug_m4u_regs.o
 mt6797_debug-objs += debug_pericfg_regs.o
 mt6797_debug-objs += debug_pll.o
