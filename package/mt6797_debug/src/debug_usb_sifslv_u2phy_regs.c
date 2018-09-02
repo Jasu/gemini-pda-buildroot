@@ -9,6 +9,74 @@
 #define SSUSB_SIF2SLV_U2PHY_BASE 0x11290800
 
 #define DEFINE_USB_SIF(prefix_, name_prefix_) \
+	DEFINE_REGISTER(prefix_##_USBPHYACR6, 0x018, #name_prefix_" PHYACR 6", \
+		REGISTER_ENUM(0, 3, "RG_USB20_SQTH SQ threshold", \
+			"85mV", \
+			"90mV", \
+			"95mV", \
+			"100mV", \
+			"105mV", \
+			"110mV", \
+			"115mV", \
+			"120mV", \
+			"125mV", \
+			"130mV", \
+			"135mV", \
+			"140mV", \
+			"145mV", \
+			"150mV", \
+			"155mV", \
+			"160mV" \
+		), \
+		REGISTER_ENUM(4, 7, "RG_USB20_DISCT Disconnect threshold", \
+			"400mV", \
+			"420mV", \
+			"440mV", \
+			"460mV", \
+			"480mV", \
+			"500mV", \
+			"520mV", \
+			"540mV", \
+			"560mV", \
+			"580mV", \
+			"600mV", \
+			"620mV", \
+			"640mV", \
+			"660mV", \
+			"680mV", \
+			"700mV" \
+		), \
+		REGISTER_BIT_ENABLED(8, "RG_USB20_HSRX_TMODE."), \
+		REGISTER_ENUM(9, 10, "BIAS_EN_SEL", \
+			"ENPLL (always on)" \
+			"IDLEB | RCV_EN (when TX on, RX off, device mode only)" \
+			"!ENPLL | FS_BIAS_EN (keep high in HS mode)" \
+			"RG_USB20_HSRX_TMODE_EN"), \
+		REGISTER_ENUM(12, 13, "RG_USB20_HSRX_MMODE_SELE Selects HS_RX manual mode", \
+			"HS_RX in normal mode, switch SQ/DISC function", \
+			"Manual mode, switch SQ (IDLEB=0)/DISC", \
+			"Force HS_RX in SQ mode", \
+			"Force HS_RX in DISC mode" \
+		), \
+		REGISTER_ENUM(16, 18, "RG_USB20_OTG_ABIST_SELE Selects OTG ABIST voltage", \
+			"100mV", \
+			"200mV", \
+			"350mV", \
+			"450mV", \
+			"700mV", \
+			"800mV", \
+			"1400mV", \
+			"1600mV" \
+		), \
+		REGISTER_BIT_ENABLED(19, \
+			"RG_USB20_OTG_ABIST_EN OTG ABIST mode signal"), \
+		REGISTER_BIT_ENABLED(20, "RG_USB20_OTG_VBUSCMP_EN OTG"), \
+		REGISTER_BIT(22, \
+			"RG_USB20_SR_CLK_SEL 240MHz for ABIST clock", \
+			"RG_USB20_SR_CLK_SEL Slew rate calibration clock"), \
+		REGISTER_BIT_ENABLED(23, "RG_USB20_BC11_SW_EN BC1.1 switch control"), \
+		REGISTER_FIELD(24, 31, "RG_USB20_PHY_REV Reserves INT PHY") \
+	); \
 	DEFINE_REGISTER(prefix_##_U2PHYACR4, 0x020, #name_prefix_"PHYA Control 4 Register", \
 		REGISTER_FIELD(0, 1, "HS_RCV_EN_MODE"), \
 		REGISTER_FIELD(2, 3, "HS_SQ_EN_MODE"), \
@@ -111,14 +179,17 @@ void __init mt6797_debug_usb_sifslv_u2phy_init(struct dentry * regs_dir)
 {
 	regs_dir = debugfs_create_dir("usb_sifslv_u2phy", regs_dir);
 	REGISTER_FILE(regs_dir, USB_SIFSLV_U2PHY_BASE, USB_U2PHYACR4);
+	REGISTER_FILE(regs_dir, USB_SIFSLV_U2PHY_BASE, USB_USBPHYACR6);
 	REGISTER_FILE(regs_dir, USB_SIFSLV_U2PHY_BASE, USB_U2PHYDTM0);
 	REGISTER_FILE(regs_dir, USB_SIFSLV_U2PHY_BASE, USB_U2PHYDTM1);
 
 	REGISTER_FILE(regs_dir, SSUSB_SIFSLV_U2PHY_BASE, U3D_U2PHYACR4);
+	REGISTER_FILE(regs_dir, SSUSB_SIFSLV_U2PHY_BASE, U3D_USBPHYACR6);
 	REGISTER_FILE(regs_dir, SSUSB_SIFSLV_U2PHY_BASE, U3D_U2PHYDTM0);
 	REGISTER_FILE(regs_dir, SSUSB_SIFSLV_U2PHY_BASE, U3D_U2PHYDTM1);
 
 	REGISTER_FILE(regs_dir, SSUSB_SIF2SLV_U2PHY_BASE, U3D_2_U2PHYACR4);
+	REGISTER_FILE(regs_dir, SSUSB_SIF2SLV_U2PHY_BASE, U3D_2_USBPHYACR6);
 	REGISTER_FILE(regs_dir, SSUSB_SIF2SLV_U2PHY_BASE, U3D_2_U2PHYDTM0);
 	REGISTER_FILE(regs_dir, SSUSB_SIF2SLV_U2PHY_BASE, U3D_2_U2PHYDTM1);
 }
