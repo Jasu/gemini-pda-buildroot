@@ -4,18 +4,20 @@ See `drivers/misc/mediatek/m4u/mt6797/m4u_platform.h`.
 
 ## LARB 0 (Display / Multimedia Data Path)
 
-| Port | Description       |
-| ---- | ----------------- |
-|    0 | Display overlay 0 |
-|    1 | Display RDMA 0    |
-|    2 | Display RDMA 1    |
-|    3 | Display WDMA 0    |
-|    4 | MDP RDMA 0        |
-|    5 | MDP WDMA 0        |
-|    6 | MDP Rotation 0    |
-|    7 | Display fake 0    |
+| Port | Description                      |
+| ---- | -------------------------------- |
+|    0 | Display overlay 0                |
+|    1 | Display 2-layer overlay 0 LARB 0 |
+|    2 | Display RDMA 0                   |
+|    3 | Display WDMA 0                   |
+|    4 | MDP RDMA 0                       |
+|    5 | MDP WDMA 0                       |
+|    6 | MDP Rotation 0                   |
+|    7 | Display fake 0                   |
 
 ## LARB 1 (Video decoding)
+
+Identical to LARB 1 on the MT8173.
 
 | Port | Description  |
 | ---- | ------------ |
@@ -51,6 +53,8 @@ See `drivers/misc/mediatek/m4u/mt6797/m4u_platform.h`.
 
 ## LARB 3 (Video encoding and JPEG decoding/encoding)
 
+Identical to LARB 3 on the MT8173.
+
 | Port | Description     |
 | ---- | --------------- |
 |    0 | VENC RCPU       |
@@ -80,18 +84,18 @@ See `drivers/misc/mediatek/m4u/mt6797/m4u_platform.h`.
 
 ## LARB 5 (Display / Multimedia Data Path)
 
-| Port | Description                     |
-| ---- | ------------------------------- |
-|    0 | Display overlay 1               |
-|    1 | Display overlay 1 2-layer       |
-|    2 | Display RDMA 1                  |
-|    3 | Display WDMA 1                  |
-|    4 | Display overdrive read          |
-|    5 | Display overdrive write         |
-|    6 | Display overlay 0 2-layer       |
-|    7 | Multimedia data path RDMA 1     |
-|    8 | Multimedia data path rotation 1 |
-|    9 | Fake display LARB 5             |
+| Port | Description                      |
+| ---- | -------------------------------- |
+|    0 | Display overlay 1                |
+|    1 | Display overlay 1 2-layer        |
+|    2 | Display RDMA 1                   |
+|    3 | Display WDMA 1                   |
+|    4 | Display overdrive read           |
+|    5 | Display overdrive write          |
+|    6 | Display overlay 0 2-layer LARB 5 |
+|    7 | Multimedia data path RDMA 1      |
+|    8 | Multimedia data path rotation 1  |
+|    9 | Display fake LARB 5              |
 
 ## LARB 6 (Camera / Face detection)
 
