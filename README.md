@@ -157,8 +157,10 @@ would get corrupted.
 
 ### Fix `scpsys`
 
-This patchset adds missing power domains to scpsys, otherwise the probe for
-`scpsys` would fail.
+This patchset fixes scpsys to allow gaps in the power domains, otherwise the
+probe for it would fail.
+
+[The patch set has been sent to MediaTek's Linux mailing list.](https://patchwork.kernel.org/project/linux-mediatek/list/?series=14617)
 
 ## Running on other devices
 

@@ -2,6 +2,6 @@
 0002-clk-mediatek-Mark-bus-and-DRAM-related-clocks-as-cri.patch
 0003-clk-mediatek-Add-flags-to-mtk_gate.patch
 
-0001-soc-mediatek-Allow-overriding-SRAM-PDN-and-ACK-addre.patch
-0002-soc-mediatek-Add-missing-power-domains-for-MT6797.patch
+0001-soc-mediatek-Bind-missing-clocks-to-scpsys-on-the-MT.patch
+0002-soc-mediatek-Allow-gaps-in-SCP-PDs.patch
 0003-dts-mediatek-mt6797-Bind-audio-mjc-and-venc-clocks-t.patch
