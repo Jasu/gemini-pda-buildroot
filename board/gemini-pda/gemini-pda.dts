@@ -74,8 +74,9 @@
 		};
 
 		pstore-reserved-memory@44410000 {
-			compatible = "mediatek,pstore";
+			compatible = "ramoops";
 			reg = <0 0x44410000 0 0xe0000>;
+			console-size = <0 0x40000>;
 		};
 
 		spm-reserve-memory {
