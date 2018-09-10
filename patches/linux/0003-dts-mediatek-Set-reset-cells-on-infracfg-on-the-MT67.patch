@@ -1,0 +1,27 @@
+From bf6c7acee428894fe87644d86d082d753dc86f5c Mon Sep 17 00:00:00 2001
+From: Jasper Mattsson <jasu@njomotys.info>
+Date: Mon, 10 Sep 2018 22:01:58 +0300
+Subject: [PATCH 3/3] dts: mediatek: Set reset-cells on infracfg on the MT6797
+
+Addes the required #reset-cells property on infracfg on the MT6797.
+
+Signed-off-by: Jasper Mattsson <jasu@njomotys.info>
+---
+ arch/arm64/boot/dts/mediatek/mt6797.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/mediatek/mt6797.dtsi b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
+index 9c05c4fa22bb..3f5b7810bc81 100644
+--- a/arch/arm64/boot/dts/mediatek/mt6797.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
+@@ -127,6 +127,7 @@
+ 		compatible = "mediatek,mt6797-infracfg", "syscon";
+ 		reg = <0 0x10001000 0 0x1000>;
+ 		#clock-cells = <1>;
++		#reset-cells = <1>;
+ 	};
+ 
+ 	scpsys: scpsys@10006000 {
+-- 
+2.18.0
+

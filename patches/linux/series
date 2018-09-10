@@ -5,3 +5,7 @@
 0001-soc-mediatek-Bind-missing-clocks-to-scpsys-on-the-MT.patch
 0002-soc-mediatek-Allow-gaps-in-SCP-PDs.patch
 0003-dts-mediatek-mt6797-Bind-audio-mjc-and-venc-clocks-t.patch
+
+0001-clk-mediatek-Register-infracfg-as-a-reset-controller.patch
+0002-dts-bindings-Add-MT6797-infracfg-resets.patch
+0003-dts-mediatek-Set-reset-cells-on-infracfg-on-the-MT67.patch

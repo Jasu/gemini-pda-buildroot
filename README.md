@@ -162,6 +162,11 @@ probe for it would fail.
 
 [The patch set has been sent to MediaTek's Linux mailing list.](https://patchwork.kernel.org/project/linux-mediatek/list/?series=14617)
 
+### Add `infracfg` resets
+
+PMIC wrapper requires a reset signal. A patch set adds the required resets to
+`infracfg`.
+
 ## Running on other devices
 
 The kernel has been tested on Umidigi Umi Z. It's preloader does not attempt to

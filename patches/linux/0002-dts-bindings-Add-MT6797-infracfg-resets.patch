@@ -1,0 +1,61 @@
+From 643ac066af7e6106b72f6a367fe0bb04db19ede1 Mon Sep 17 00:00:00 2001
+From: Jasper Mattsson <jasu@njomotys.info>
+Date: Mon, 10 Sep 2018 22:01:03 +0300
+Subject: [PATCH 2/3] dts: bindings: Add MT6797 infracfg resets
+
+Add dt-bindings for MT6797 infracfg
+
+Signed-off-by: Jasper Mattsson <jasu@njomotys.info>
+---
+ include/dt-bindings/reset/mt6797-resets.h | 39 +++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+ create mode 100644 include/dt-bindings/reset/mt6797-resets.h
+
+diff --git a/include/dt-bindings/reset/mt6797-resets.h b/include/dt-bindings/reset/mt6797-resets.h
+new file mode 100644
+index 000000000000..7c11bb8e95dd
+--- /dev/null
++++ b/include/dt-bindings/reset/mt6797-resets.h
+@@ -0,0 +1,39 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++
++#ifndef _DT_BINDINGS_RESET_CONTROLLER_MT6797
++#define _DT_BINDINGS_RESET_CONTROLLER_MT6797
++
++/* INFRACFG resets */
++/* INFRA_GLOBALCON_RST0 */
++#define MT6797_INFRA_THERM_CTRL_RST		0
++#define MT6797_INFRA_USB_TOP_RST		1
++#define MT6797_INFRA_PERI_IOMMU_RST		2
++#define MT6797_INFRA_MM_IOMMU_RST		3
++#define MT6797_INFRA_MSDC3_RST			4
++#define MT6797_INFRA_MSDC2_RST			5
++#define MT6797_INFRA_MSDC1_RST			6
++#define MT6797_INFRA_MSDC0_RST			7
++#define MT6797_INFRA_DRAMC_RST			8
++#define MT6797_INFRA_AP_DMA_RST			9
++#define MT6797_INFRA_MIPI_D_RST			10
++#define MT6797_INFRA_MIPI_C_RST			11
++#define MT6797_INFRA_BTIF_RST			12
++#define MT6797_INFRA_CLDMA_RST			13
++#define MT6797_INFRA_DVFS_PROC_0_RST		14
++#define MT6797_INFRA_DVFS_PROC_1_RST		15
++#define MT6797_INFRA_L2C_INFRA_0_RST		16
++
++/* INFRA_GLOBALCON_RST1 */
++#define MT6797_INFRA_SSUSB_TOP_RST		33
++#define MT6797_INFRA_L2C_INFRA_1_RST		48
++
++/* INFRA_GLOBALCON_RST2 */
++#define MT6797_INFRA_PMIC_WRAP_RST		64
++#define MT6797_INFRA_SPM_RST			65
++#define MT6797_INFRA_USBSIF_RST			66
++#define MT6797_INFRA_SCP_RST			67
++#define MT6797_INFRA_CLDMA_AO_RST		68
++#define MT6797_INFRA_SCP_SECURE_RST		69
++#define MT6797_INFRA_SSUSB_DIG_PHY_B_RST	70
++
++#endif
+-- 
+2.18.0
+

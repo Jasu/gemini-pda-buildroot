@@ -6,6 +6,7 @@
 #include "mediatek/mt6797.dtsi"
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/power/mt6797-power.h>
+#include <dt-bindings/reset/mt6797-resets.h>
 
 / {
 	model = "MT6797X";
@@ -17,6 +18,28 @@
 	chosen {
 		// Specifying cmdline here is useless, since they are
 		// overwritten by LK. CMDLINE is overridden in kernel config.
+	};
+
+	// pwrap needs a pwrap clock, but MT6797 does not have one. Make a
+	// fake clock to sate the module's hunger.
+	pwrap_clk: dummy40m {
+		compatible = "fixed-clock";
+		clock-frequency = <40000000>;
+		#clock-cells = <0>;
+	};
+
+	pwrap: pwrap@1000d000 {
+		compatible = "mediatek,mt6797-pwrap";
+		reg = <0 0x1000d000 0 0x1000>;
+		reg-names = "pwrap";
+		interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&topckgen CLK_TOP_MUX_PMICSPI>, <&pwrap_clk>;
+		clock-names = "spi", "wrap";
+		resets = <&infrasys MT6797_INFRA_PMIC_WRAP_RST>;
+		reset-names = "pwrap";
+		pmic: mt6351 {
+			compatible = "mediatek,mt6351";
+		};
 	};
 
 	soc {
@@ -74,9 +97,9 @@
 		};
 
 		pstore-reserved-memory@44410000 {
-			compatible = "ramoops";
+			compatible = "mediatek,pstore";
 			reg = <0 0x44410000 0 0xe0000>;
-			console-size = <0 0x40000>;
+			/*console-size = <0 0x40000>;*/
 		};
 
 		spm-reserve-memory {
@@ -112,6 +135,25 @@
 			compatible = "mediatek,dummy-framebuffer";
 			no-map;
 			reg = <0 0xbdff0000 0 0x01f90000>;
+		};
+
+		umi-0@8dfff000 {
+			compatible = "umidigi,dummy-something";
+			no-map;
+			reg = <0 0x8dfff000 0 0x1000>;
+		};
+
+		umi-1@bde00000 {
+			compatible = "umidigi,dummy-something";
+			no-map;
+			reg = <0 0xbde00000 0 0x10000>;
+		};
+
+		umi-2@c0000000 {
+			compatible = "umidigi,dummy-something";
+			no-map;
+			// WTF 1.5 gigs?
+			reg = <0 0xc0000000 0 0x60000000>;
 		};
 	};
 
