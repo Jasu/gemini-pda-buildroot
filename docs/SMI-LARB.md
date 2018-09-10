@@ -36,7 +36,7 @@ Identical to LARB 1 on the MT8173.
 
 | Port | Description |
 | ---- | ----------- |
-|    0 | IMG 0       |
+|    0 | IMGO        |
 |    1 | RRZ 0       |
 |    2 | AAO         |
 |    3 | AFO         |
